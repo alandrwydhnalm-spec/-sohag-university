@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتيجة الطالب معتز علي عبد المنعم - جامعة سوهاج</title>
+    <!-- خط تجوال من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: #0b0e14;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* شريط التنقل العلوي */
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            z-index: 10;
+            background: rgba(11, 14, 20, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #00d2ff;
+            text-decoration: none;
+        }
+
+        /* حاوية الـ Canvas الخاصة بالـ 3D */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* بطاقة النتيجة والتهنئة */
+        .result-card {
+            position: absolute;
+            bottom: 6%;
+            right: 50%;
+            transform: translateX(50%) translateY(30px);
+            text-align: center;
+            z-index: 10;
+            width: 90%;
+            max-width: 650px;
+            background: rgba(18, 26, 38, 0.85);
+            backdrop-filter: blur(15px);
+            padding: 25px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 210, 255, 0.2);
+            opacity: 0;
+            transition: all 1s ease-in-out;
+            pointer-events: none;
+        }
+
+        .result-card.visible {
+            opacity: 1;
+            transform: translateX(50%) translateY(0);
+            pointer-events: auto;
+        }
+
+        .student-name {
+            font-size: 26px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .badge {
+            padding: 8px 18px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .badge-rank {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #000;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+
+        /* المربع الأزرق */
+        .badge-grade {
+            background: linear-gradient(45deg, #00d2ff, #0072ff);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+        }
+
+        .thanks-message {
+            font-size: 15px;
+            color: #d1d5db;
+            margin-top: 15px;
+            line-height: 1.6;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 12px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            .student-name {
+                font-size: 20px;
+            }
+            .result-card {
+                padding: 18px;
+                bottom: 4%;
+            }
+            .badge {
+                font-size: 13px;
+                padding: 6px 14px;
+            }
+        }
+    </style>
+
+    <!-- استدعاء مكتبة Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+    <!-- شريط التنقل -->
+    <header>
+        <a href="#" class="logo">جامعة سوهاج</a>
+        <span style="color: #8892b0; font-size: 14px;">بوابة نتائج الطلاب</span>
+    </header>
+
+    <!-- حاوية الـ 3D -->
+    <div id="canvas-container"></div>
+
+    <!-- بطاقة التهنئة بالنتيجة -->
+    <div class="result-card" id="resultCard">
+        <h2 class="student-name">الطالب: معتز علي عبد المنعم</h2>
+        
+        <div class="badge-container">
+            <span class="badge badge-rank">الأول بامتياز 🥇</span>
+            <!-- المربع الأزرق بالنص الجديد -->
+            <span class="badge badge-grade">الطالب ناجح بتفوق في اختبار من هم أفضل طلاب ✨</span>
+        </div>
+
+        <p class="thanks-message">
+            💐 **تحيات وتقدير من جامعة سوهاج** إلى أولياء الأمور الكرام على حسن الرعاية والاهتمام والجهود المباركة التي أثمرت هذا التفوق الباهر لطلابنا.
+        </p>
+    </div>
+
+    <!-- كود البرمجة الثلاثية الأبعاد -->
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // الإضاءة
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambientLight);
+
+        const pointLight1 = new THREE.PointLight(0x00d2ff, 2);
+        pointLight1.position.set(10, 10, 10);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0xffd700, 1.5);
+        pointLight2.position.set(-10, -10, -10);
+        scene.add(pointLight2);
+
+        // نجوم متحركة في الخلفية
+        const particlesGeo = new THREE.BufferGeometry();
+        const particlesCount = 800;
+        const posArray = new Float32Array(particlesCount * 3);
+        for(let i=0; i<particlesCount*3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 60;
+        }
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMat = new THREE.PointsMaterial({ size: 0.04, color: 0x00d2ff });
+        const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particlesMesh);
+
+        // إنشاء النص العربي في المشهد الثلاثي الأبعاد
+        function createArabic3DText(text, colorHex, fontSize = 1.2) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 1024;
+            canvas.height = 256;
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'Bold 80px Tajawal, Arial, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const geometry = new THREE.PlaneGeometry(12 * fontSize, 3 * fontSize);
+            const material = new THREE.MeshStandardMaterial({
+                map: texture,
+                transparent: true,
+                metalness: 0.3,
+                roughness: 0.2,
+                emissive: colorHex,
+                emissiveIntensity: 0.6
+            });
+
+            return new THREE.Mesh(geometry, material);
+        }
+
+        // 1. النص الأول ثلاثي الأبعاد: جامعة سوهاج
+        let textMesh = createArabic3DText('جامعة سوهاج', 0x00d2ff, 1.3);
+        scene.add(textMesh);
+        camera.position.z = 12;
+
+        let isTransitioned = false;
+
+        // 2. بعد 3.5 ثوانٍ تتغير الكلمة التي في منتصف الشاشة إلى "مُتَفَوِّق"
+        setTimeout(() => {
+            isTransitioned = true;
+
+            scene.remove(textMesh);
+            textMesh = createArabic3DText('مُتَفَوِّق ✨', 0xffd700, 1.5);
+            scene.add(textMesh);
+
+            // إظهار بطاقة النتيجة السفلية
+            document.getElementById('resultCard').classList.add('visible');
+        }, 3500);
+
+        // تفاعل مع حركة الماوس أو اللمس
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 0.4;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 0.4;
+        });
+
+        // الحركة والتنعيم
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (!isTransitioned) {
+                textMesh.rotation.y = Math.sin(Date.now() * 0.002) * 0.3 + mouseX;
+                textMesh.rotation.x = mouseY;
+            } else {
+                textMesh.rotation.y = Math.sin(Date.now() * 0.003) * 0.2 + mouseX;
+                textMesh.rotation.x = mouseY;
+            }
+
+            particlesMesh.rotation.y -= 0.0008;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // إعادة الضبط عند تغيير أبعاد الشاشة
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
