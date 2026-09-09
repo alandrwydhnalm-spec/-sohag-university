@@ -54,22 +54,22 @@
             z-index: 1;
         }
 
-        /* بطاقة النتيجة والتهنئة */
+        /* بطاقة النتيجة والتهنئة الرسمية */
         .result-card {
             position: absolute;
-            bottom: 6%;
+            bottom: 3%;
             right: 50%;
             transform: translateX(50%) translateY(30px);
             text-align: center;
             z-index: 10;
-            width: 90%;
-            max-width: 650px;
-            background: rgba(18, 26, 38, 0.85);
+            width: 92%;
+            max-width: 720px;
+            background: rgba(18, 26, 38, 0.9);
             backdrop-filter: blur(15px);
-            padding: 25px 30px;
+            padding: 20px 30px;
             border-radius: 20px;
-            border: 1px solid rgba(0, 210, 255, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 210, 255, 0.2);
+            border: 1px solid rgba(0, 210, 255, 0.35);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 210, 255, 0.2);
             opacity: 0;
             transition: all 1s ease-in-out;
             pointer-events: none;
@@ -81,8 +81,41 @@
             pointer-events: auto;
         }
 
+        /* رأس البطاقة والختم */
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .ministry-title {
+            text-align: right;
+        }
+
+        .ministry-title h3 {
+            font-size: 16px;
+            color: #00d2ff;
+            font-weight: 700;
+        }
+
+        .ministry-title h4 {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .eagle-seal {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.5));
+        }
+
         .student-name {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 900;
             color: #ffffff;
             margin-bottom: 8px;
@@ -93,13 +126,13 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
             margin: 12px 0;
         }
 
         .badge {
-            padding: 8px 18px;
-            font-size: 15px;
+            padding: 6px 16px;
+            font-size: 14px;
             font-weight: 700;
             border-radius: 20px;
             display: inline-block;
@@ -119,12 +152,15 @@
         }
 
         .thanks-message {
-            font-size: 15px;
-            color: #d1d5db;
-            margin-top: 15px;
+            font-size: 14px;
+            color: #e2e8f0;
+            margin-top: 12px;
             line-height: 1.6;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 12px;
+            border-right: 3px solid #00d2ff;
+            text-align: justify;
         }
 
         @media (max-width: 768px) {
@@ -132,15 +168,22 @@
                 padding: 15px 20px;
             }
             .student-name {
-                font-size: 20px;
+                font-size: 18px;
             }
             .result-card {
-                padding: 18px;
-                bottom: 4%;
+                padding: 15px;
+                bottom: 2%;
+            }
+            .eagle-seal {
+                width: 60px;
+                height: 60px;
             }
             .badge {
-                font-size: 13px;
-                padding: 6px 14px;
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+            .ministry-title h3 {
+                font-size: 14px;
             }
         }
     </style>
@@ -159,18 +202,40 @@
     <!-- حاوية الـ 3D -->
     <div id="canvas-container"></div>
 
-    <!-- بطاقة التهنئة بالنتيجة -->
+    <!-- بطاقة التهنئة بالنتيجة الرسمية -->
     <div class="result-card" id="resultCard">
+        
+        <!-- ترويسة الوزارة وختم النسر الأزرق -->
+        <div class="card-header">
+            <div class="ministry-title">
+                <h3>وزارة الاتصالات وتكنولوجيا المعلومات</h3>
+                <h4>جمهورية مصر العربية</h4>
+            </div>
+            <!-- ختم النسر الرسمي باللون الأزرق المضيء SVG -->
+            <svg class="eagle-seal" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="46" fill="none" stroke="#00d2ff" stroke-width="2.5" stroke-dasharray="4,2"/>
+                <circle cx="50" cy="50" r="41" fill="none" stroke="#0072ff" stroke-width="1.5"/>
+                <!-- رسم النسر -->
+                <path d="M50 20 L53 30 L63 26 L58 35 L68 38 L58 45 L65 55 L53 53 L50 72 L47 53 L35 55 L42 45 L32 38 L42 35 L37 26 L47 30 Z" fill="#00d2ff"/>
+                <path d="M45 53 L50 48 L55 53 L50 68 Z" fill="#0072ff"/>
+                <!-- درع مصر -->
+                <rect x="47" y="42" width="6" height="10" fill="#ffffff"/>
+                <!-- شريط الأسفل -->
+                <path d="M30 75 Q50 82 70 75" fill="none" stroke="#00d2ff" stroke-width="2"/>
+                <text x="50" y="88" font-size="6" fill="#00d2ff" text-anchor="middle" font-family="Tajawal" font-weight="bold">جمهورية مصر العربية</text>
+            </svg>
+        </div>
+
         <h2 class="student-name">الطالب: معتز علي عبد المنعم</h2>
         
         <div class="badge-container">
             <span class="badge badge-rank">الأول بامتياز 🥇</span>
-            <!-- المربع الأزرق بالنص الجديد -->
-            <span class="badge badge-grade">الطالب ناجح بتفوق في اختبار من هم أفضل طلاب ✨</span>
+            <!-- المربع الأزرق -->
+            <span class="badge badge-grade">ناجح باختبار من هم افضل طلاب ✨</span>
         </div>
 
         <p class="thanks-message">
-            💐 **تحيات وتقدير من جامعة سوهاج** إلى أولياء الأمور الكرام على حسن الرعاية والاهتمام والجهود المباركة التي أثمرت هذا التفوق الباهر لطلابنا.
+            📜 <strong>تهنئة رسمية:</strong> تسعد وزارة الاتصالات وتكنولوجيا المعلومات بتقديم خالص التهنئة والتقدير للطالب والأسرة الكريمة بمناسبة هذا التفوق والتميز العلمي الباهر، متمنين له دوام التوفيق والنجاح.
         </p>
     </div>
 
@@ -185,18 +250,18 @@
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
         // الإضاءة
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
         scene.add(ambientLight);
 
-        const pointLight1 = new THREE.PointLight(0x00d2ff, 2);
+        const pointLight1 = new THREE.PointLight(0x00d2ff, 2.5);
         pointLight1.position.set(10, 10, 10);
         scene.add(pointLight1);
 
-        const pointLight2 = new THREE.PointLight(0xffd700, 1.5);
+        const pointLight2 = new THREE.PointLight(0xffd700, 1.8);
         pointLight2.position.set(-10, -10, -10);
         scene.add(pointLight2);
 
-        // نجوم متحركة في الخلفية
+        // خلفية نجوم متحركة
         const particlesGeo = new THREE.BufferGeometry();
         const particlesCount = 800;
         const posArray = new Float32Array(particlesCount * 3);
@@ -208,7 +273,86 @@
         const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
         scene.add(particlesMesh);
 
-        // إنشاء النص العربي في المشهد الثلاثي الأبعاد
+        // إنشاء شاشة الكمبيوتر بالأكواد الملونة
+        const screenCanvas = document.createElement('canvas');
+        screenCanvas.width = 512;
+        screenCanvas.height = 320;
+        const screenCtx = screenCanvas.getContext('2d');
+
+        const codeSymbols = ["{ }", "< />", "0101", "function()", "const", "let", "System.out", "print()", "0x3F", "if(success)", "CSS3", "HTML5", "C++", "Python", "#include"];
+        const screenParticles = [];
+
+        for(let i = 0; i < 25; i++) {
+            screenParticles.push({
+                x: Math.random() * screenCanvas.width,
+                y: Math.random() * screenCanvas.height,
+                text: codeSymbols[Math.floor(Math.random() * codeSymbols.length)],
+                color: ['#00ff66', '#ff3366', '#00d2ff'][Math.floor(Math.random() * 3)],
+                speed: 1 + Math.random() * 2
+            });
+        }
+
+        const screenTexture = new THREE.CanvasTexture(screenCanvas);
+
+        // مجموعة شاشة الكمبيوتر 3D
+        const computerGroup = new THREE.Group();
+
+        // 1. الإطار الخارجي السميك للشاشة
+        const outerFrameGeo = new THREE.BoxGeometry(4.6, 3.0, 0.3);
+        const frameMat = new THREE.MeshStandardMaterial({ 
+            color: 0x181d28, 
+            metalness: 0.7, 
+            roughness: 0.3 
+        });
+        const outerFrameMesh = new THREE.Mesh(outerFrameGeo, frameMat);
+        computerGroup.add(outerFrameMesh);
+
+        // 2. الحواف الداخلية البارزة للشاشة
+        const innerBorderGeo = new THREE.BoxGeometry(4.1, 2.5, 0.32);
+        const innerBorderMat = new THREE.MeshStandardMaterial({ color: 0x0a0d14, metalness: 0.9, roughness: 0.1 });
+        const innerBorderMesh = new THREE.Mesh(innerBorderGeo, innerBorderMat);
+        computerGroup.add(innerBorderMesh);
+
+        // 3. شاشة العرض المضيئة داخل الحواف
+        const screenGeo = new THREE.PlaneGeometry(3.9, 2.3);
+        const screenMat = new THREE.MeshBasicMaterial({ map: screenTexture });
+        const screenMesh = new THREE.Mesh(screenGeo, screenMat);
+        screenMesh.position.z = 0.17;
+        computerGroup.add(screenMesh);
+
+        // 4. الحافة السفلية للكمبيوتر
+        const bottomLipGeo = new THREE.BoxGeometry(4.6, 0.3, 0.35);
+        const bottomLipMat = new THREE.MeshStandardMaterial({ color: 0x222a3a, metalness: 0.8, roughness: 0.2 });
+        const bottomLipMesh = new THREE.Mesh(bottomLipGeo, bottomLipMat);
+        bottomLipMesh.position.set(0, -1.35, 0.02);
+        computerGroup.add(bottomLipMesh);
+
+        // 5. ضوء مؤشر التشغيل
+        const ledGeo = new THREE.SphereGeometry(0.04, 16, 16);
+        const ledMat = new THREE.MeshBasicMaterial({ color: 0x00d2ff });
+        const ledMesh = new THREE.Mesh(ledGeo, ledMat);
+        ledMesh.position.set(2.0, -1.35, 0.2);
+        computerGroup.add(ledMesh);
+
+        // 6. حامل الشاشة
+        const standGeo = new THREE.CylinderGeometry(0.12, 0.18, 1.1, 16);
+        const standMat = new THREE.MeshStandardMaterial({ color: 0x3b475e, metalness: 0.9, roughness: 0.1 });
+        const standMesh = new THREE.Mesh(standGeo, standMat);
+        standMesh.position.set(0, -1.9, -0.05);
+        computerGroup.add(standMesh);
+
+        // 7. قاعدة الكمبيوتر
+        const baseGeo = new THREE.BoxGeometry(2.0, 0.1, 1.4);
+        const baseMesh = new THREE.Mesh(baseGeo, standMat);
+        baseMesh.position.set(0, -2.45, 0);
+        computerGroup.add(baseMesh);
+
+        // موضع الشاشة الثابت في الأعلى (Y = 4.8)
+        computerGroup.position.set(0, 4.8, 0);
+        computerGroup.visible = false;
+        scene.add(computerGroup);
+
+        // إنشاء النص الثلاثي الأبعاد البدائي (جامعة سوهاج)
         function createArabic3DText(text, colorHex, fontSize = 1.2) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -235,51 +379,65 @@
             return new THREE.Mesh(geometry, material);
         }
 
-        // 1. النص الأول ثلاثي الأبعاد: جامعة سوهاج
+        // النص الترحيبي الأول
         let textMesh = createArabic3DText('جامعة سوهاج', 0x00d2ff, 1.3);
+        textMesh.position.set(0, 0, 0);
         scene.add(textMesh);
         camera.position.z = 12;
 
         let isTransitioned = false;
 
-        // 2. بعد 3.5 ثوانٍ تتغير الكلمة التي في منتصف الشاشة إلى "مُتَفَوِّق"
+        // الانتقال بعد 3.5 ثوانٍ
         setTimeout(() => {
             isTransitioned = true;
 
+            // إزالة النص الثلاثي الأبعاد بالكامل
             scene.remove(textMesh);
-            textMesh = createArabic3DText('مُتَفَوِّق ✨', 0xffd700, 1.5);
-            scene.add(textMesh);
 
-            // إظهار بطاقة النتيجة السفلية
+            // إظهار الكمبيوتر الثابت
+            computerGroup.visible = true;
+
+            // إظهار بطاقة النتيجة الرسمية
             document.getElementById('resultCard').classList.add('visible');
         }, 3500);
 
-        // تفاعل مع حركة الماوس أو اللمس
-        let mouseX = 0, mouseY = 0;
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 0.4;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 0.4;
-        });
+        // حركة الأكواد البرمجية فقط داخل الشاشة
+        function updateScreenCanvas() {
+            screenCtx.fillStyle = '#050811';
+            screenCtx.fillRect(0, 0, screenCanvas.width, screenCanvas.height);
 
-        // الحركة والتنعيم
+            screenCtx.font = 'Bold 20px monospace';
+            screenParticles.forEach(p => {
+                screenCtx.fillStyle = p.color;
+                screenCtx.fillText(p.text, p.x, p.y);
+                p.y += p.speed;
+                if(p.y > screenCanvas.height) {
+                    p.y = -20;
+                    p.x = Math.random() * screenCanvas.width;
+                }
+            });
+
+            screenTexture.needsUpdate = true;
+        }
+
+        // الحلقة التكرارية للتحريك (Animation Loop)
         function animate() {
             requestAnimationFrame(animate);
 
-            if (!isTransitioned) {
-                textMesh.rotation.y = Math.sin(Date.now() * 0.002) * 0.3 + mouseX;
-                textMesh.rotation.x = mouseY;
-            } else {
-                textMesh.rotation.y = Math.sin(Date.now() * 0.003) * 0.2 + mouseX;
-                textMesh.rotation.x = mouseY;
-            }
+            // تحريك الكود الداخلي فقط
+            updateScreenCanvas();
 
+            // تثبيت الشاشة والمجسمات دون أي دوران
+            computerGroup.rotation.set(0, 0, 0);
+
+            // حركة النجوم الخفيفة في الخلفية
             particlesMesh.rotation.y -= 0.0008;
             renderer.render(scene, camera);
         }
 
         animate();
 
-        // إعادة الضبط عند تغيير أبعاد الشاشة
+        // إعادة ضبط الأبعاد عند تغيير حجم الشاشة
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -288,3 +446,4 @@
     </script>
 </body>
 </html>
+
